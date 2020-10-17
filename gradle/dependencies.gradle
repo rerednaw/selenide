@@ -5,15 +5,15 @@ repositories {
 ext {
   testngVersion = '7.3.0'
   seleniumVersion = '4.0.0-alpha-6'
-  junitVersion = '5.6.2'
-  jettyVersion = '9.4.31.v20200723'
+  junitVersion = '5.7.0'
+  jettyVersion = '9.4.32.v20200930'
 }
 
 dependencies {
   api("org.seleniumhq.selenium:selenium-java:$seleniumVersion") {
     exclude group: 'net.bytebuddy', module: 'byte-buddy'
   }
-  api('io.github.bonigarcia:webdrivermanager:4.2.0') {
+  api('io.github.bonigarcia:webdrivermanager:4.2.2') {
     exclude group: 'org.apache.httpcomponents.core5', module: 'httpcore5-h2'
     exclude group: 'org.rauschig', module: 'jarchivelib'
   }
@@ -21,18 +21,18 @@ dependencies {
     because 'used by webdrivermanager'
   }
 
-  implementation('org.apache.httpcomponents.client5:httpclient5:5.0.1') {
+  implementation('org.apache.httpcomponents.client5:httpclient5:5.0.3') {
     exclude group: 'org.apache.httpcomponents.core5', module: 'httpcore5-h2'
   }
 
   compileOnly('com.browserup:browserup-proxy-core:2.1.1')
   testCompile('com.browserup:browserup-proxy-core:2.1.1')
-  compileOnly('io.netty:netty-all:4.1.51.Final')
-  testCompile('io.netty:netty-all:4.1.51.Final')
+  compileOnly('io.netty:netty-all:4.1.52.Final')
+  testCompile('io.netty:netty-all:4.1.52.Final')
   compileOnly('xyz.rogfam:littleproxy:2.0.0-beta-5')
 
   compileOnly("org.junit.jupiter:junit-jupiter-api:$junitVersion")
-  compileOnly("junit:junit:4.13")
+  compileOnly("junit:junit:4.13.1")
   compileOnly("org.testng:testng:$testngVersion") { transitive = false }
 
   testImplementation("org.seleniumhq.selenium:selenium-grid:$seleniumVersion") {
@@ -40,7 +40,7 @@ dependencies {
   }
   testImplementation("org.eclipse.jetty:jetty-servlet:${jettyVersion}")
   testImplementation("org.testng:testng:$testngVersion") { transitive = false }
-  testImplementation('org.mockito:mockito-core:3.5.9')
+  testImplementation('org.mockito:mockito-core:3.5.13')
   testImplementation('commons-fileupload:commons-fileupload:1.4')
   testImplementation('com.automation-remarks:video-recorder-junit5:2.0') {
     exclude group: 'org.awaitility'

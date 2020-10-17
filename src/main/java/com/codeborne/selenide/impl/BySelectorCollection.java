@@ -12,8 +12,11 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
+import static com.codeborne.selenide.impl.Plugins.inject;
+
 @ParametersAreNonnullByDefault
 public class BySelectorCollection implements WebElementsCollection {
+  private static final ElementDescriber describe = inject(ElementDescriber.class);
 
   private final Driver driver;
   private final SearchContext parent;
@@ -40,11 +43,22 @@ public class BySelectorCollection implements WebElementsCollection {
   @Override
   @CheckReturnValue
   @Nonnull
+  public WebElement getElement(int index) {
+    SearchContext searchContext = parent == null ? driver.getWebDriver() : parent;
+    if (index == 0) {
+      return WebElementSelector.instance.findElement(driver, searchContext, selector);
+    }
+    return WebElementSelector.instance.findElements(driver, searchContext, selector).get(index);
+  }
+
+  @Override
+  @CheckReturnValue
+  @Nonnull
   public String description() {
-    return parent == null ? Describe.selector(selector) :
+    return parent == null ? describe.selector(selector) :
         (parent instanceof SelenideElement) ?
-            ((SelenideElement) parent).getSearchCriteria() + "/" + Describe.shortly(selector) :
-            Describe.shortly(selector);
+            ((SelenideElement) parent).getSearchCriteria() + "/" + describe.selector(selector) :
+          describe.selector(selector);
   }
 
   @Override

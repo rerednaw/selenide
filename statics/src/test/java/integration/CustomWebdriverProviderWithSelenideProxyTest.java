@@ -28,7 +28,7 @@ import static com.codeborne.selenide.WebDriverRunner.isFirefox;
 import static com.codeborne.selenide.WebDriverRunner.isHeadless;
 import static org.assertj.core.api.Assumptions.assumeThat;
 
-public class CustomWebdriverProviderWithSelenideProxyTest extends IntegrationTest {
+final class CustomWebdriverProviderWithSelenideProxyTest extends IntegrationTest {
   @BeforeEach
   void setUp() {
     assumeThat(isChrome() || isFirefox()).isTrue();
@@ -55,7 +55,9 @@ public class CustomWebdriverProviderWithSelenideProxyTest extends IntegrationTes
     @CheckReturnValue
     @Nonnull
     public WebDriver createDriver(DesiredCapabilities desiredCapabilities) {
-      return isChrome() ? chrome(desiredCapabilities) : firefox(desiredCapabilities);
+      if (browser().isChrome()) return chrome(desiredCapabilities);
+      if (browser().isFirefox()) return firefox(desiredCapabilities);
+      throw new IllegalStateException("Unsupported browser: " + browser().name);
     }
 
     private ChromeDriver chrome(DesiredCapabilities desiredCapabilities) {

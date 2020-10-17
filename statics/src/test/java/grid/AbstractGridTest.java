@@ -12,6 +12,7 @@ import org.openqa.selenium.grid.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static com.codeborne.selenide.Configuration.timeout;
 import static com.codeborne.selenide.Selenide.closeWebDriver;
 import static org.openqa.selenium.net.PortProber.findFreePort;
 
@@ -24,6 +25,7 @@ abstract class AbstractGridTest extends IntegrationTest {
   final void setUpGrid() {
     closeWebDriver();
     WebDriverManager.chromedriver().setup();
+    timeout = 4000;
 
     logger.info("GeckoDriverInfo.isAvailable: ");
     logger.info("  -> {}", new GeckoDriverInfo().isAvailable());

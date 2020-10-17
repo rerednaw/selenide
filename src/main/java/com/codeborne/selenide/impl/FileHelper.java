@@ -6,17 +6,26 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static java.nio.file.Files.createDirectories;
+
 @ParametersAreNonnullByDefault
 public final class FileHelper {
   private static final Logger log = LoggerFactory.getLogger(FileHelper.class);
 
   private FileHelper() {
+  }
+
+  public static void writeToFile(byte[] source, File targetFile) throws IOException {
+    try (InputStream in = new ByteArrayInputStream(source)) {
+      copyFile(in, targetFile);
+    }
   }
 
   public static void copyFile(File sourceFile, File targetFile) throws IOException {
@@ -45,8 +54,10 @@ public final class FileHelper {
   public static File ensureFolderExists(File folder) {
     if (!folder.exists()) {
       log.info("Creating folder: {}", folder.getAbsolutePath());
-      if (!folder.mkdirs()) {
-        throw new IllegalArgumentException("Failed to create folder '" + folder.getAbsolutePath() + "'");
+      try {
+        createDirectories(folder.toPath());
+      } catch (IOException e) {
+        throw new IllegalArgumentException("Failed to create folder '" + folder.getAbsolutePath() + "'", e);
       }
     }
     return folder;

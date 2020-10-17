@@ -37,13 +37,14 @@ public abstract class IntegrationTest extends BaseIntegrationTest {
   }
 
   @BeforeEach
+  @AfterEach
   final void setUpEach() {
     resetSettings();
   }
 
   @BeforeEach
   @AfterEach
-  public void restoreDefaultProperties() {
+  final void restoreDefaultProperties() {
     timeout = 1;
     clickViaJs = false;
     downloadsFolder = "build/downloads";

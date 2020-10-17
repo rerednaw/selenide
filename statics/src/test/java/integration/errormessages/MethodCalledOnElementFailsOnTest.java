@@ -22,7 +22,7 @@ import static integration.errormessages.Helper.assertScreenshot;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
-class MethodCalledOnElementFailsOnTest extends IntegrationTest {
+final class MethodCalledOnElementFailsOnTest extends IntegrationTest {
   @BeforeEach
   void openPage() {
     givenHtml(
@@ -333,7 +333,7 @@ class MethodCalledOnElementFailsOnTest extends IntegrationTest {
       assertThat(expected.getCause())
         .isInstanceOf(IndexOutOfBoundsException.class);
       assertThat(expected.getCause())
-        .hasMessageMatching("Index\\D+0\\D+0");
+        .hasMessageMatching("Index: 0");
     }
   }
 
@@ -353,7 +353,7 @@ class MethodCalledOnElementFailsOnTest extends IntegrationTest {
       assertThat(expected.getCause())
         .isInstanceOf(IndexOutOfBoundsException.class);
       assertThat(expected.getCause())
-        .hasMessageMatching("Index\\D+0\\D+0");
+        .hasMessageMatching("Index: 0");
     }
   }
 
@@ -373,7 +373,7 @@ class MethodCalledOnElementFailsOnTest extends IntegrationTest {
       assertThat(expected.getCause())
         .isInstanceOf(IndexOutOfBoundsException.class);
       assertThat(expected.getCause())
-        .hasMessageMatching("Index\\D+2\\D+2");
+        .hasMessageMatching("Index: 2");
     }
   }
 

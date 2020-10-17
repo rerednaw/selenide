@@ -21,7 +21,7 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.mockito.Mockito.mock;
 
-class ChromeDriverFactoryTest implements WithAssertions {
+final class ChromeDriverFactoryTest implements WithAssertions {
   private static final String CHROME_OPTIONS_PREFS = "chromeoptions.prefs";
   private static final String CHROME_OPTIONS_ARGS = "chromeoptions.args";
   private static final String DOWNLOADS_FOLDER = Paths.get("blah", "downloads").toString();
@@ -138,6 +138,14 @@ class ChromeDriverFactoryTest implements WithAssertions {
     List<String> optionArguments = getBrowserLaunchArgs(ChromeOptions.CAPABILITY, chromeOptions);
 
     assertThat(optionArguments).contains("--disable-dev-shm-usage");
+  }
+
+  @Test
+  void disablesSandbox() {
+    Capabilities chromeOptions = factory.createCapabilities(config, browser, proxy, browserDownloadsFolder);
+    List<String> optionArguments = getBrowserLaunchArgs(ChromeOptions.CAPABILITY, chromeOptions);
+
+    assertThat(optionArguments).contains("--no-sandbox");
   }
 
   @Test
